@@ -60,4 +60,4 @@ gm = GMap{//shortcut to define a GMap
 l, err := gm.Get("v2").Int64Slice()
 
 ```
-See gomap_test.go for more examples
+See _gomap_test.go_ for more examples
