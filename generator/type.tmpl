@@ -1,0 +1,27 @@
+//{{ .Type | ToTitle}} cast element value into {{ .Type}}
+func (elt *Element) {{ .Type | ToTitle}}(defaultValue ...{{ .Type}}) ({{ .Type}}, error) {
+	defValue := func() *{{ .Type}} {
+		if len(defaultValue) == 0 {
+			return nil
+		}
+		return &defaultValue[0]
+	}
+	def := defValue()
+	if elt.Value == nil {
+		def := defValue()
+		if def == nil {
+			var v {{ .Type }}
+			return v, NewWrongPathError(elt.Path)
+		}
+		return *def, nil
+	}
+	v, ok := elt.Value.({{ .Type}})
+	if !ok {
+		if def == nil{
+			var v {{ .Type }}
+			return v, NewWrongTypeError("{{ .Type }}", elt.Value)
+		}
+		return *def, nil
+	}
+	return v, nil
+}
