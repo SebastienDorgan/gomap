@@ -3,7 +3,7 @@ Go library for manipulating generic maps and cast elements into native Go types 
 
 __gomap__ is super simple to use.
 
-Start from a generic map, creating by and or using some decoding golang tools
+Start from a generic map, creating by hand or using some decoding golang tools
 
 ```golang
 m := map[string]interface{}{
