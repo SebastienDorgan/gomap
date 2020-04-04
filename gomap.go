@@ -1,3 +1,6 @@
+//Package gomap implements utilities to manipulate generic maps and cast elements into native Go types and native Go structures
+//
+// The package is really simple to use
 package gomap
 
 import "encoding/json"
@@ -33,9 +36,13 @@ func (elt *Element) Get(path ...string) *Element {
 				Path: elt.Path,
 			}
 		}
-		m, ok := elt.Value.(GMap)
+		m, ok := elt.Value.(map[string]interface{})
 		if ok {
 			return element(m, elt.Path, path[0])
+		}
+		gm, ok := elt.Value.(GMap)
+		if ok {
+			return element(gm, elt.Path, path[0])
 		}
 		return &Element{
 			Path: elt.Path,

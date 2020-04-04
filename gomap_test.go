@@ -7,13 +7,14 @@ import (
 )
 
 func TestGoMapTypes(t *testing.T) {
-	m := GMap{
+	rm := map[string]interface{}{
 		"v1": 1,
-		"elt": GMap{
+		"elt": map[string]interface{}{
 			"v2": 2,
 		},
 		"vs": "test",
 	}
+	m := GMap(rm)
 	v, err := m.Get("v1").Int(42)
 	assert.NoError(t, err)
 	assert.Equal(t, 1, v)
