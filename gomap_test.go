@@ -48,11 +48,11 @@ func TestGoMapTypes(t *testing.T) {
 
 func TestGoSlices(t *testing.T) {
 	m := GMap{
-		"v1": []interface{}{1, 2},
+		"v1": GSlice{1, 2},
 		"elt": GMap{
-			"v2": []interface{}{int64(2), int64(3)},
+			"v2": GSlice{int64(2), int64(3)},
 		},
-		"vs": []interface{}{"test", "test2"},
+		"vs": GSlice{"test", "test2"},
 	}
 	v, err := m.Get("v1").IntSlice([]int{42})
 	assert.NoError(t, err)

@@ -8,6 +8,9 @@ import "encoding/json"
 //GMap overload map with utility functions
 type GMap map[string]interface{}
 
+//GSlice overload []interface{} to simplify GMap declarations
+type GSlice []interface{}
+
 //Element an element of the map
 type Element struct {
 	Path  []string

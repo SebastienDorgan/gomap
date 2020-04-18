@@ -14,13 +14,17 @@ func (elt *Element) {{ .Type | ToTitle}}Slice(defaultValue ...[]{{ .Type}}) ([]{
 		}
 		return *def, nil
 	}
-	list, ok := elt.Value.([]interface{})
-	if !ok {
-		if def == nil{
-			return nil, NewWrongTypeError("[]{{ .Type }}", elt.Value)
-		}
-		return *def, nil
+	switch v := elt.Value.(type) {
+	case []interface{}:
+		return {{ .Type}}CastInterfaceType(v, def)
+	case GSlice:
+		return {{ .Type}}CastGSliceType(v, def)
+	default:
+		return nil, NewWrongTypeError("[]{{ .Type }}", elt.Value)
 	}
+}
+
+func {{ .Type}}CastInterfaceType(list []interface{}, def *[]{{ .Type}}) ([]{{ .Type}}, error){
 	var res []{{ .Type}}
 	for _, e := range list{
 		v, ok := e.({{ .Type }})
@@ -31,7 +35,21 @@ func (elt *Element) {{ .Type | ToTitle}}Slice(defaultValue ...[]{{ .Type}}) ([]{
 			return *def, nil
 		}
 		res = append(res, v)
+	}
+	return res, nil
+}
 
+func {{ .Type}}CastGSliceType(list GSlice, def *[]{{ .Type}}) ([]{{ .Type}}, error){
+	var res []{{ .Type}}
+	for _, e := range list{
+		v, ok := e.({{ .Type }})
+		if !ok {
+			if def == nil{
+				return nil, NewWrongTypeError("{{ .Type }}", e)
+			}
+			return *def, nil
+		}
+		res = append(res, v)
 	}
 	return res, nil
 }
